@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DynamicWebProject03-IDEA.iml" filepath="$PROJECT_DIR$/DynamicWebProject03-IDEA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavaWebExample.iml" filepath="$PROJECT_DIR$/JavaWebExample.iml" />
     </modules>
   </component>
 </project>
