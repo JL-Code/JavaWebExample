@@ -1,11 +1,11 @@
 package main.servlet.fileupload;
 
 
+import javafx.scene.shape.Path;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
-import org.apache.tomcat.jni.Directory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +15,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -52,7 +50,7 @@ public class FileUploadHttpServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        final String dirRoot = "G:\\";
+        final String dirRoot = getServletContext().getRealPath("/");
         FileOutputStream outputStream = null;
         try {
 
@@ -61,7 +59,12 @@ public class FileUploadHttpServlet extends HttpServlet {
             // 设置请求头编码,防止中文名称乱码
             servletFileUpload.setHeaderEncoding("utf-8");
             List<FileItem> fileItemList = servletFileUpload.parseRequest(request);
-
+            String fileDir = dirRoot + "uploads";
+            File file = new File(fileDir);
+            // 当文件夹不存在时，自动创建目录，mkdirs 递归创建目录  mkdir 只创建一个目录。
+            if (!file.exists()) {
+                file.mkdirs();
+            }
             for (FileItem fileItem : fileItemList) {
                 System.out.println(fileItem.getFieldName());
                 System.out.println(fileItem.getContentType());
@@ -69,13 +72,7 @@ public class FileUploadHttpServlet extends HttpServlet {
                 System.out.println(fileItem.getSize());
                 System.out.println(fileItem.isFormField());
                 if (!fileItem.isFormField()) {
-                    String fileDir = dirRoot + "FileUpload\\";
-                    String fullFileName = fileDir + new File(fileItem.getName()).getName();
-                    File file = new File(fileDir);
-                    // 当文件夹不存在时，自动创建目录，mkdirs 递归创建目录  mkdir 只创建一个目录。
-                    if (!file.exists()) {
-                        file.mkdirs();
-                    }
+                    String fullFileName = Paths.get(fileDir, new File(fileItem.getName()).getName()).toString();
                     System.out.println(file.isDirectory());
                     System.out.println(file.exists());
                     InputStream inputStream = fileItem.getInputStream();
@@ -92,7 +89,8 @@ public class FileUploadHttpServlet extends HttpServlet {
                 outputStream.close();
             }
         }
-        response.sendRedirect("/DynamicWebProject03_IDEA");
+
+        response.sendRedirect(getServletContext().getContextPath());
     }
 
 }

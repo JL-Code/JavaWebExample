@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/DynamicWebProject03_IDEA/fileupload" enctype="multipart/form-data" method="post">
+    <form action="/JavaWebExample_war_exploded/fileupload" enctype="multipart/form-data" method="post">
         普通表单字段:
         <input type="text" name="username">
         文件字段:
