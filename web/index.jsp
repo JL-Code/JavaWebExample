@@ -11,7 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/JavaWebExample_war_exploded/fileupload" enctype="multipart/form-data" method="post">
+    <p>你大爷的</p>
+    <form action="/fileupload" enctype="multipart/form-data" method="post">
         普通表单字段:
         <input type="text" name="username">
         文件字段:
